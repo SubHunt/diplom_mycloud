@@ -6,89 +6,118 @@
 ```bash
 ssh-keygen
 ```
-2. Далее передим на сайт [reg.ru](https://cloud.reg.ru/) и cоздаем облачный сервер: \
+2. Далее передим на сайт [reg.ru](https://cloud.reg.ru/) и cоздаем облачный сервер: 
 
 - образ - Ubuntu 24.04 LTS
 - тип диска - Стандартный
-- тариф - Std C1-M1-D10
-- регион размещения - Москва
+- тариф - Std C1-M1-D10 (на мой взгяд лучше взять M2 - 2Gb RAM, долго npm install происходит на М1)
+- регион размещения - Москва (либо Санкт-Петербург)
 - указываем название SSH ключа
 - добавляем SSH-ключ, используя ранее сгенерированный публичный SSH-ключ
 - даем название серверу
 - нажимаем кнопку Заказать сервер
 ---
-После успешной регистрации на вашу почту придет письмо с IP- адресом сервера, логином и паролем. \
+После успешной регистрации на вашу почту придет письмо с IP- адресом сервера, логином и паролем. 
 3. Открываем терминал от имени администратора и набираем
 ```bash
 ssh root@IP
 ```
-где IP - это ip-адрес вашего сервера и вводим пароль из письма, или от SSH-ключа \
+где IP - это ip-адрес вашего сервера и вводим пароль из письма, или от SSH-ключа 
+
 4. Создаем нового пользователя: 
    `adduser <ИМЯ ПОЛЬЗОВАТЕЛЯ>`
    
-5. Добавляем созданного пользователя в группу `sudo`: \
+5. Добавляем созданного пользователя в группу `sudo`: 
    `usermod <ИМЯ ПОЛЬЗОВАТЕЛЯ> -aG sudo` 
 
-6. Выходим из под пользователя `root`: \
+6. Выходим из под пользователя `root`: 
    `logout` 
 
-7. Подключаемся к серверу под новым пользователем: \
+7. Подключаемся к серверу под новым пользователем: 
    `ssh <ИМЯ ПОЛЬЗОВАТЕЛЯ>@<IP АДРЕС СЕРВЕРА>`
 
    ---
 
-8. Обновляем список доступных пакетов `apt` и их версий из всех настроенных репозиториев, включая PPA, чтобы пользоваться их актуальными релизами:\
-   `sudo apt update`\
-9. Устанавливаем нужной версии `Python 3.13.1+`:
-   - Установка необходимых инструментов для добавления PPA:\
-      `sudo apt install software-properties-common`
-   - Добавление PPA для установок новых версий Python:\
-      `sudo add-apt-repository ppa:deadsnakes/ppa`
-   - Обновление списка пакетов:\
-      `sudo apt update`
-   - Установка Python 3.13 и необходимых пакетов для разработки:\
-      `sudo apt install python3.13 python3.13-venv python3.13-dev python3-pip`
-   - Проверка установленной версии Python 3.13:\
-      `python3.13 --version`
-   - Настройка Python 3.13 как альтернативы для python3:\
-      `sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.13 1`\
-      `sudo update-alternatives --config python3`
-   - Проверка версии python3, чтобы убедиться, что всё настроено правильно:\
-      `python3 --version`
-10. Устанавливаем необходимые пакеты:\
-   `sudo apt install postgresql nginx`
-
-    ---
-
-11. Заходим в панель `psql` под пользователем `postgres`:\
-   `sudo -u postgres psql`
-12. Задаем пароль для пользователя `postgres`:\
-   `ALTER USER postgres WITH PASSWORD 'postgres';`
-13. Создаем базу данных:\
-   `CREATE DATABASE mycloud;`
-14. Выходим из панели `psql`:\
-    `\q`
-
-    ---
-
-15. Проверяем что установлен `git`:\
-   `git --version`
-16. Клонируем репозиторий:\
-   `git clone https://github.com/SubHunt/diplom_mycloud.git`
-
-    ---
-
-17. Переходим в папку проекта `mycloud`:\
+8. Обновляем список доступных пакетов `apt` и их версий из всех настроенных репозиториев, включая PPA, чтобы пользоваться их актуальными релизами:
+   ```bash
+   sudo apt update
+   ```
+10. Устанавливаем нужной версии `Python 3.13.1+`:
+- Установка необходимых инструментов для добавления PPA:
+```bash
+sudo apt install software-properties-common
+```
+- Добавление PPA для установок новых версий Python:
+```bash
+sudo add-apt-repository ppa:deadsnakes/ppa
+```
+- Обновление списка пакетов:
+```bash
+sudo apt update
+```
+- Установка Python 3.13 и необходимых пакетов для разработки:
+```bash
+sudo apt install python3.13 python3.13-venv python3.13-dev python3-pip
+```
+- Проверка установленной версии Python 3.13:
+```bash
+python3.13 --version`
+```
+- Настройка Python 3.13 как альтернативы для python3:
+```bash
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.13 1`
+sudo update-alternatives --config python3`
+```
+- Проверка версии python3, чтобы убедиться, что всё настроено правильно:
+```bash
+python3 --version`
+```
+11. Устанавливаем необходимые пакеты:
+```bash
+sudo apt install postgresql nginx`
+```
+12. Заходим в панель `psql` под пользователем `postgres`:
+```bash
+sudo -u postgres psql`
+```
+13. Задаем пароль для пользователя `postgres`:
+```bash
+ALTER USER postgres WITH PASSWORD 'postgres';
+```
+14. Создаем базу данных:\
+```bash
+CREATE DATABASE mycloud;
+```
+15. Выходим из панели `psql`:
+```bash
+\q
+```
+17. Проверяем что установлен `git`:\
+```bash
+git --version
+```
+18. Клонируем репозиторий:\
+```bash
+git clone https://github.com/SubHunt/diplom_mycloud.git
+```
+19. Переходим в папку проекта `mycloud`:\
    `cd /home/<ИМЯ ПОЛЬЗОВАТЕЛЯ>/diplom_mycloud/mycloud`
-18. Устанавливаем виртуальное окружение:\
-   `python3 -m venv venv`
-19. Активируем виртуальное окружение:\
-   `source venv/bin/activate`
-20. Устанавливаем зависимости:\
-   `pip install -r requirements.txt`
-21. В папке `backend` создаем файл `.env` в соответствии с шаблоном:\
-   `nano .env`
-
+20. Устанавливаем виртуальное окружение:
+```bash
+python3 -m venv venv`
+```
+21. Активируем виртуальное окружение:
+```bash
+source venv/bin/activate
+```
+22. Устанавливаем зависимости:
+```bash
+pip install -r requirements.txt
+```
+23. В папке `backend` создаем файл `.env` в соответствии с шаблоном:
+```bash
+nano .env
+```
       ```python
          # Настройки Django
          # можно сгенерировать с помощью терминала python: >>> import secrets >>> print(secrets.token_urlsafe(50))
@@ -106,26 +135,41 @@ ssh root@IP
          DB_PORT=5432
       ```
 
-22. Применяем миграции:\
-   `python manage.py migrate`
-23. Создаем администратора (суперпользователя):\
-   `python manage.py createsuperuser`\
-    либо готовым скриптом: \
-    `python manage.py create_admin`
-   *Суперпользователь позволят входить как в "Django administration", так и в "Административный интерфейс" на фронте сайта после входа.*
-24. Собираем весь статичный контент в одной папке (`static`) на сервере:\
-   `python manage.py collectstatic`
-25. Запускаем сервер:\
-   `python manage.py runserver 0.0.0.0:8000`
+24. Применяем миграции:
+```bash
+python manage.py migrate
+```
+25. Создаем администратора (суперпользователя):
+```bash
+python manage.py createsuperuser
+```
+    либо готовым скриптом: 
+```bash
+python manage.py create_admin
+```
+*Суперпользователь позволят входить как в "Django administration", так и в "Административный интерфейс" на фронте сайта после входа.*
+Вы можете предварительно изменить настройки на свои в файле mycloud/users/management/commands/create_admin.py
+26. Собираем весь статичный контент в одной папке (`static`) на сервере:
+```bash
+python manage.py collectstatic`
+```
+27. Запускаем сервер:
+```bash
+python manage.py runserver 0.0.0.0:8000
+```
 
-    После этого уже можно коннектиться к серверу по дресу вашего сервера http://Ваш_ip_сервера:8000/admin/ Например у меня `http://194.67.88.118:8000/admin/`
+После этого уже можно коннектиться к серверу по дресу вашего сервера http://Ваш_ip_сервера:8000/admin/ Например у меня `http://194.67.88.118:8000/admin/`
 
     ---
 
-26. Проверяем работу gunicorn: \
-    `gunicorn --bind 0.0.0.0:8000 mycloud.wsgi`
-27. Создаем файл `gunicorn.socket`:\
-   `sudo nano /etc/systemd/system/gunicorn.socket`
+28. Проверяем работу gunicorn: \
+```bash
+gunicorn --bind 0.0.0.0:8000 mycloud.wsgi
+```
+29. Создаем файл `gunicorn.socket`:\
+```bash
+sudo nano /etc/systemd/system/gunicorn.socket
+```
 
       ```ini
       [Unit]
@@ -140,8 +184,10 @@ ssh root@IP
 
     ---
 
-28. Создаем файл `gunicorn.service`:\
-   `sudo nano /etc/systemd/system/gunicorn.service`
+30. Создаем файл `gunicorn.service`:
+```bash
+sudo nano /etc/systemd/system/gunicorn.service
+```
 
       ```ini
       [Unit]
@@ -164,24 +210,37 @@ ssh root@IP
       ```
     ---
 
-29. Запускаем файл `gunicorn.socket`:\
-   `sudo systemctl start gunicorn.socket`\
-   `sudo systemctl enable gunicorn.socket`
-30. Проверяем статус файла `gunicorn.socket`:\
-   `sudo systemctl status gunicorn.socket`
-31. Убеждаемся что файл `gunicorn.sock` присутствует в папке `/run`:\
-   `file /run/gunicorn.sock`
-32. Проверяем статус `gunicorn`:\
-   `sudo systemctl status gunicorn`
-
-      Если `gunicorn` не активен, то запускаем его:\
-      `sudo systemctl start gunicorn;`\
-      `sudo systemctl enable gunicorn;`
+31. Запускаем файл `gunicorn.socket`:
+```bash
+sudo systemctl start gunicorn.socket
+sudo systemctl enable gunicorn.socket
+```
+32. Проверяем статус файла `gunicorn.socket`:
+```bash
+sudo systemctl status gunicorn.socket
+```
+33. Убеждаемся что файл `gunicorn.sock` присутствует в папке `/run`:
+```bash
+file /run/gunicorn.sock
+```
+34. Проверяем статус `gunicorn`:
+```bash
+sudo systemctl status gunicorn
+```
+Если `gunicorn` не активен, то запускаем его:
+```bash
+sudo systemctl start gunicorn;
+```
+```bash
+sudo systemctl enable gunicorn;
+```
 
     ---
 
-33. Создаем модуль `nginx`:\
-   `sudo nano /etc/nginx/sites-available/mycloud`
+35. Создаем модуль `nginx`:\
+```bash
+sudo nano /etc/nginx/sites-available/mycloud
+```
 
       ```ini
       server {
@@ -216,52 +275,61 @@ ssh root@IP
       }
       ```
 
-34. Создаем символическую ссылку:\
-   `sudo ln -s /etc/nginx/sites-available/mycloud /etc/nginx/sites-enabled`
-35. Добавляем пользователя `www-data` в группу текущего пользователя:\
-   `sudo usermod -a -G ${admin} www-data`
-36. Диагностируем `nginx` на предмет ошибок в синтаксисе:\
-   `sudo nginx -t`
-37. Перезапускаем веб-сервер:\
-   `sudo systemctl restart nginx`
-38. Проверяем статус `nginx`:\
+36. Создаем символическую ссылку:
+```bash
+sudo ln -s /etc/nginx/sites-available/mycloud /etc/nginx/sites-enabled
+```
+37. Добавляем пользователя `www-data` в группу текущего пользователя:
+```bash
+sudo usermod -a -G ${admin} www-data
+```
+38. Диагностируем `nginx` на предмет ошибок в синтаксисе:
+```bash
+sudo nginx -t
+```
+40. Перезапускаем веб-сервер:
+```bash
+sudo systemctl restart nginx
+```
+
+41. Проверяем статус `nginx`:\
    `sudo systemctl status nginx`
-39. При помощи `firewall` даем полные права `nginx` для подключений:\
+42. При помощи `firewall` даем полные права `nginx` для подключений:\
    `sudo ufw allow 'Nginx Full'`
 
     ---
-40. Устанавливаем [Node Version Manager](https://github.com/nvm-sh/nvm) (nvm):\
+43. Устанавливаем [Node Version Manager](https://github.com/nvm-sh/nvm) (nvm):\
    `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash`
-41. Добавляем переменную окружения:
+44. Добавляем переменную окружения:
 
       ```bash
       export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
       [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
       ```
 
-42. Проверяем версию `nvm`:\
+45. Проверяем версию `nvm`:\
    `nvm -v`
-43. Устанавливаем нужную версию `node`:\
+46. Устанавливаем нужную версию `node`:\
    `nvm install <НОМЕР ВЕРСИИ>`
-44. Проверяем версию `node`:\
+47. Проверяем версию `node`:\
    `node -v`
-45. Проверяем версию `npm`:\
+48. Проверяем версию `npm`:\
    `npm -v`
 
     ---
-46. Переходим в папку проекта `frontend`:\
+49. Переходим в папку проекта `frontend`:\
    `cd /home/<ИМЯ ПОЛЬЗОВАТЕЛЯ>/Diplom_MyCloud/frontend`
-47. В папке `frontend/src/services` в файлах `apiService.js` и `authService.js`редактируем базовый URL:\
+50. В папке `frontend/src/services` в файлах `apiService.js` и `authService.js`редактируем базовый URL:\
    `nano apiService.js`\
    `const API_BASE_URL = 'http://<IP АДРЕС СЕРВЕРА>:8000';`
    `nano authService.js`\
    `const API_BASE_URL = 'http://<IP АДРЕС СЕРВЕРА>:8000';
-49. Устанавливаем зависимости:\
+51. Устанавливаем зависимости:\
    `npm i`
 
     ---
 
-50. В папке `frontend` создаем файл `start.sh`:\
+52. В папке `frontend` создаем файл `start.sh`:\
    `nano start.sh`
 
       ```sh
@@ -270,12 +338,12 @@ ssh root@IP
       npm run build
       ```
 
-51. Делаем файл `start.sh` исполняемым:\
+53. Делаем файл `start.sh` исполняемым:\
    `sudo chmod +x /home/admin/diplom_mycloud/frontend/start.sh`
 
     ---
 
-52. Создаем файл `frontend.service`:\
+54. Создаем файл `frontend.service`:\
    `sudo nano /etc/systemd/system/frontend.service`
 
       ```ini
@@ -295,17 +363,17 @@ ssh root@IP
 
     ---
 
-53. Запускаем сервис `frontend`:\
+55. Запускаем сервис `frontend`:\
    `sudo systemctl start frontend`\
    `sudo systemctl enable frontend`
-54. Проверяем статус сервиса `frontend`:\
+56. Проверяем статус сервиса `frontend`:\
    `sudo systemctl status frontend`
 
     ---
 
-55. Проверяем доступность сайта по адресу:\
+57. Проверяем доступность сайта по адресу:\
    `http://<IP АДРЕС СЕРВЕРА>`
-56. Проверяем доступность Django administration по адресу:\
+58. Проверяем доступность Django administration по адресу:\
    `http://<IP АДРЕС СЕРВЕРА>/admin/`
 
 Помощь по развертыванию черпал из лекции Нетологии и источника [HABR](https://habr.com/ru/articles/501414/)
